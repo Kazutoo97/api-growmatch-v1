@@ -16,7 +16,9 @@ dbConn();
 
 //**Middleware */
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(
+  cors({ origin: "https://grow-match-v1.vercel.app/", credentials: true })
+);
 app.use(cookieParser());
 
 //**All Routes */
