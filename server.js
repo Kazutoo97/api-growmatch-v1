@@ -20,10 +20,10 @@ app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(cookieParser());
 
 //**All Routes */
+app.use("/api/v1/auth", routerAuth);
 app.use("/", (req, res) => {
   res.send("Hello WOrld");
 });
-app.use("/api/v1/auth", routerAuth);
 
 //**Middleware Error Handler */
 app.use(ErrorHandler);
