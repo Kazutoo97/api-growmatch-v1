@@ -7,7 +7,6 @@ import cors from "cors";
 import dbConn from "./config/dbConn.js";
 import { ErrorHandler } from "./middleware/errorHandler.js";
 import routerAuth from "./routes/authRouter.js";
-import corsOptions from "./config/corsOption.js";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -17,7 +16,9 @@ dbConn();
 
 //**Middleware */
 app.use(express.json());
-app.use(cors(corsOptions));
+app.use(
+  cors({ origin: "https://grow-match-v1.vercel.app", credentials: true })
+);
 app.use(cookieParser());
 
 //**All Routes */
