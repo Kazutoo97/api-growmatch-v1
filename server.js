@@ -17,7 +17,7 @@ dbConn();
 
 //**Middleware */
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 
 //**All Routes */
