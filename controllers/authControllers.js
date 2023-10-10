@@ -9,6 +9,7 @@ export const registerUser = async (req, res, next) => {
     const schema = Joi.object({
       firstName: Joi.string().min(3).max(12).alphanum().required(),
       lastName: Joi.string().required().allow(""),
+      userName: Joi.string().min(3).max(12).required(),
       email: Joi.string().email().required(),
       password: Joi.string().pattern(
         new RegExp(
@@ -24,12 +25,18 @@ export const registerUser = async (req, res, next) => {
       throw new Error(error.details[0].message);
     }
 
-    const { firstName, lastName, email, password, dob, interest } = value;
+    const { firstName, lastName, userName, email, password, dob, interest } =
+      value;
 
     //**check if user already registered*/
-    const exist = await Users.findOne({ email });
-    if (exist) {
+    const existEmail = await Users.findOne({ email });
+    if (existEmail) {
       throw new Error(`Email already registered`);
+    }
+
+    const existUsername = await Users.findOne({ userName });
+    if (existUsername) {
+      throw new Error("Username already taken");
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -39,16 +46,20 @@ export const registerUser = async (req, res, next) => {
       slug: uuidv4(),
       firstName,
       lastName,
+      userName,
       email,
       password: hashedPassword,
       dob,
       interest,
     });
 
+    console.log(user);
     await user.save();
     res.status(200).json({
       message: "Registration successfully",
-      data: user,
+      data: {
+        userName: user.userName,
+      },
     });
   } catch (error) {
     next(error);
@@ -56,16 +67,16 @@ export const registerUser = async (req, res, next) => {
 };
 
 export const loginUser = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { userName, password } = req.body;
   try {
-    const user = await Users.findOne({ email });
+    const user = await Users.findOne({ userName });
     if (!user) {
-      throw new Error("Email or password wrong!");
+      throw new Error("Username or Password wrong!");
     }
 
     const compare = await bcrypt.compare(password, user.password);
     if (!compare) {
-      throw new Error("Email or password wrong!");
+      throw new Error("Username or Password wrong!");
     }
 
     const accessToken = jwt.sign(
