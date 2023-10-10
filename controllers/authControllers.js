@@ -53,7 +53,6 @@ export const registerUser = async (req, res, next) => {
       interest,
     });
 
-    console.log(user);
     await user.save();
     res.status(200).json({
       message: "Registration successfully",
