@@ -13,7 +13,7 @@ dotenv.config();
 const PORT = process.env.PORT || 3000;
 const app = express();
 //**Connect to MongoDB */
-dbConn();
+const connectDB = dbConn();
 
 //**Middleware */
 app.use(express.json());
@@ -31,6 +31,9 @@ app.use("/", (req, res) => {
 
 //**Middleware Error Handler */
 app.use(ErrorHandler);
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+
+connectDB.then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
 });
