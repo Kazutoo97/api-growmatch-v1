@@ -1,7 +1,7 @@
 import Users from "../models/UsersModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { sendEmail } from "../helpers/index.js";
+import { sendEmail } from "../helper/index.js";
 
 export const forgotPassword = async (req, res, next) => {
   const { email } = req.body;
