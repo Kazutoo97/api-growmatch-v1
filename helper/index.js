@@ -17,6 +17,5 @@ export const sendEmail = async (contentEmail) => {
     console.log(`Email terkirim: ${info}`);
   } catch (error) {
     console.error(`Terjadi kesalahan saat mengirim email: ${error}`);
-    throw new Error("Gagal mengirim email.");
   }
 };
