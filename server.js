@@ -7,6 +7,7 @@ import cors from "cors";
 import dbConn from "./config/dbConn.js";
 import { ErrorHandler } from "./middleware/errorHandler.js";
 import routerAuth from "./routes/authRouter.js";
+import forgotPasswordRoutes from "./routes/forgotPasswordRoutes.js";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -23,6 +24,7 @@ app.use(cookieParser());
 
 //**All Routes */
 app.use("/api/v1/auth", routerAuth);
+app.use("/api/v1", forgotPasswordRoutes);
 app.use("/", (req, res) => {
   res.send("Hello WOrld");
 });
